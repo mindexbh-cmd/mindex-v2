@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mindex Portal â ØªØ³Ø¬ÙÙ Ø§ÙØ¯Ø®ÙÙ</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Arial,sans-serif;}
+body{background:#F8F5FD;display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.box{background:#fff;border:1px solid #E0D5F0;border-radius:16px;padding:40px;width:380px;box-shadow:0 8px 32px rgba(107,63,160,0.12);}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:30px;}
+.logo-mark{width:46px;height:46px;background:linear-gradient(135deg,#6B3FA0,#8B5CC8);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#FFD700;font-size:22px;}
+.logo-text h2{font-size:20px;font-weight:700;color:#2D1B5E;}
+.logo-text p{font-size:11px;color:#B0A0CC;}
+.roles{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.role{padding:5px 12px;border-radius:20px;border:1px solid #E0D5F0;font-size:12px;cursor:pointer;color:#7B6A9E;background:transparent;transition:all .15s;font-family:inherit;}
+.role:hover,.role.sel{border-color:#6B3FA0;color:#6B3FA0;background:#EDE5F7;}
+label{font-size:11px;color:#7B6A9E;display:block;margin-bottom:4px;}
+input{width:100%;background:#F8F5FD;border:1.5px solid #E0D5F0;border-radius:8px;padding:10px 14px;color:#2D1B5E;font-family:inherit;font-size:14px;margin-bottom:12px;outline:none;transition:border-color .2s;}
+input:focus{border-color:#6B3FA0;}
+.btn{width:100%;padding:12px;background:linear-gradient(135deg,#6B3FA0,#8B5CC8);border:none;border-radius:8px;color:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.btn:hover{opacity:.88;}
+.err{color:#E84545;font-size:12px;margin-top:8px;display:none;text-align:center;}
+.hint{font-size:11px;color:#B0A0CC;text-align:center;margin-top:16px;}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">
+    <div class="logo-mark">â</div>
+    <div class="logo-text"><h2>Mindex Portal</h2><p>ÙØ±ÙØ² ÙØ§ÙÙ ÙÙØªØ¹ÙÙÙ ÙØ§ÙØªØ¯Ø±ÙØ¨</p></div>
+  </div>
+  <div class="roles">
+    <button class="role" onclick="sel(this,'admin','admin123')">Ø§ÙØ¥Ø¯Ø§Ø±Ø©</button>
+    <button class="role" onclick="sel(this,'reception','rec123')">Ø§ÙØ§Ø³ØªÙØ¨Ø§Ù</button>
+    <button class="role" onclick="sel(this,'students','stu123')">Ø´Ø¤ÙÙ Ø§ÙØ·ÙØ§Ø¨</button>
+    <button class="role" onclick="sel(this,'teacher1','tea123')">ÙÙØ«Ø± Ø´Ø¹Ø¨Ø§Ù</button>
+    <button class="role" onclick="sel(this,'teacher2','tea456')">Ø²ÙØ±Ø§Ø¡ ÙÙØ­</button>
+    <button class="role" onclick="sel(this,'parent1','par123')">ÙÙÙ Ø£ÙØ±</button>
+  </div>
+  <label>Ø§Ø³Ù Ø§ÙÙØ³ØªØ®Ø¯Ù</label>
+  <input id="u" placeholder="username">
+  <label>ÙÙÙØ© Ø§ÙÙØ­ÙØ±</label>
+  <input id="p" type="password" placeholder="password" onkeydown="if(event.key==='Enter')login()">
+  <button class="btn" onclick="login()">Ø¯Ø®ÙÙ â</button>
+  <p class="err" id="err">Ø§Ø³Ù Ø§ÙÙØ³ØªØ®Ø¯Ù â Ø£Ù ÙÙØ© Ø¶Ø§Ø»</p>
+  <p class="hint">Ø§Ø®ØªØ± Ø¯ÙØ±Ø§Ù ÙÙ Ø´Ø§ÙØ© ÙÙØ¯Ø®ÙÙ</p>
+</div>
+<script>
+function sel(btn,u,p){
+	document.querySelectorAll('.role').forEach(b=>b.classList.remove('sel'));
+	btn.classList.add('sel');
+	document.getElementById('u').value=u;
+	document.getElementById('p').value=p;
+}
+async function login(){
+	const u=document.getElementById('u').value;
+	const p=document.getElementById('p').value;
+	const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+	const d=await r.json();
+	if(d.ok)location.href='/dashboard';
+	else document.getElementById('err').style.display='block';
+}
+</script>
+</body>
+</html>
