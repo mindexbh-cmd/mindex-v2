@@ -1,5 +1,5 @@
 # Mindex Portal
-from flask import Flask, render_template_string, request, jsonify, session, redirect, g
+from flask import Flask, make_response, request, jsonify, session, redirect, g
 import sqlite3, hashlib, os, json
 from datetime import date
 from functools import wraps
@@ -51,7 +51,7 @@ APP_HTML = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),"app.htm
 @app.route("/")
 def index():
     if "user" in session: return redirect("/dashboard")
-    return render_template_string(LOGIN_HTML)
+    return make_response(LOGIN_HTML)
 
 @app.route("/api/login", methods=["POST"])
 def api_login():
@@ -70,7 +70,7 @@ def api_logout():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template_string(APP_HTML, user=session["user"])
+    return make_response(APP_HTML)
 
 @app.route("/api/dashboard")
 @login_required
